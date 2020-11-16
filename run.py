@@ -1,22 +1,13 @@
-import sc2
 from sc2 import run_game, maps, Race, Difficulty
 from sc2.player import Bot, Computer
-
-
-class WorkerRushBot(sc2.BotAI):
-    async def on_step(self, iteration: int):
-        if iteration == 0:
-            for worker in self.workers:
-                worker.attack(self.enemy_start_locations[0])
+from bot.main import MyBot
 
 
 if __name__ == '__main__':
+    bot = Bot(Race.Protoss, MyBot())
     run_game(
         maps.get("Abyssal Reef LE"),
-        [
-            Bot(Race.Protoss, WorkerRushBot()),
-            Computer(Race.Protoss, Difficulty.VeryEasy)
-        ],
+        [bot, Computer(Race.Protoss, Difficulty.VeryEasy)],
         realtime=False,
         step_time_limit=0.5,
         game_time_limit=(60*60),
