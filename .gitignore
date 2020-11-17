@@ -1,3 +1,15 @@
 .vscode
+.idea/
+
+.mypy_cache/
+__pycache__/
+*.py[cod]
+*$py.class
+
 *.SC2Replay
 temp
+
+.env
+.venv
+env/
+venv/

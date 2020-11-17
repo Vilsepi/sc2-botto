@@ -1,0 +1,18 @@
+[flake8]
+show-source = True
+count = True
+
+#ignore =
+#    E203 # whitespace before ':' - Black intentionally breaks this not PEP 8 compliant rule
+#    E501 # line too long - line length is configured in Black
+#    E731
+#    W503 # line break before binary operator - Black intentionally breaks this not PEP 8 compliant rule
+
+exclude =
+    .git
+    .venv
+    venv
+    .vscode
+    .idea
+    __pycache__
+    temp
