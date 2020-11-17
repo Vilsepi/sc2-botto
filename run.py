@@ -4,10 +4,10 @@ from bot.main import MyBot
 
 
 if __name__ == "__main__":
-    bot = Bot(Race.Protoss, MyBot())
+    bot = Bot(Race.Zerg, MyBot())
     run_game(
         maps.get("Abyssal Reef LE"),
-        [bot, Computer(Race.Protoss, Difficulty.VeryEasy)],
+        [bot, Computer(Race.Random, Difficulty.Medium)],
         realtime=False,
         step_time_limit=0.5,
         game_time_limit=(60 * 60),
