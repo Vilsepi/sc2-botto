@@ -9,7 +9,7 @@ if __name__ == "__main__":
         maps.get("Abyssal Reef LE"),
         [bot, Computer(Race.Random, Difficulty.Medium)],
         realtime=False,
-        step_time_limit=0.5,
+        step_time_limit=0.1,
         game_time_limit=(60 * 60),
         save_replay_as="latest.SC2Replay",
     )
