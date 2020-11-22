@@ -1,6 +1,7 @@
 import sc2
 from bot.lib.army import ArmyManager
 from bot.lib.build import BuildManager
+from bot.lib.overlords import OverlordManager
 from bot.lib.queens import QueenManager
 from bot.lib.train import UnitTrainingManager
 from bot.lib.upgrades import UpgradeManager
@@ -16,6 +17,7 @@ class Botto(sc2.BotAI):
         self.train_manager: UnitTrainingManager = UnitTrainingManager(self)
         self.worker_manager: WorkerManager = WorkerManager(self)
         self.upgrade_manager: UpgradeManager = UpgradeManager(self)
+        self.overlord_manager: OverlordManager = OverlordManager(self)
         self.queen_manager: QueenManager = QueenManager(self)
 
     async def on_step(self, iteration):
@@ -24,9 +26,10 @@ class Botto(sc2.BotAI):
             return
         self.train_manager.manage_queen_training()
         self.upgrade_manager.manage_tech_upgrades()
-        self.queen_manager.manage_queens()
         await self.build_manager.manage_build_projects()
         self.worker_manager.manage_workers()
+        self.queen_manager.manage_queens()
+        self.overlord_manager.manage_overlords()
 
     async def on_end(self, result):
         self.logger.info(
