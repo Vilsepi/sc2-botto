@@ -30,6 +30,7 @@ class Botto(sc2.BotAI):
         self.worker_manager.manage_workers()
         self.queen_manager.manage_queens()
         self.overlord_manager.manage_overlords()
+        self.train_manager.set_hatchery_rally_points(iteration)
 
     async def on_end(self, result):
         self.logger.info(

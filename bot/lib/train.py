@@ -1,5 +1,6 @@
 from bot.util.logging import TerminalLogger
 import sc2
+from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 from sc2.unit import Unit
 from sc2.units import Units
@@ -56,3 +57,17 @@ class UnitTrainingManager:
                     if townhall.is_idle:
                         townhall.train(UnitTypeId.QUEEN)
                         return
+
+    def set_hatchery_rally_points(self, iteration: int):
+        if iteration % 100 == 0:
+            for townhall in self.bot.townhalls:
+                if townhall.is_ready:
+                    townhall(
+                        AbilityId.RALLY_HATCHERY_UNITS,
+                        self.bot.main_base_ramp.top_center,
+                    )
+                else:
+                    townhall(
+                        AbilityId.RALLY_HATCHERY_WORKERS,
+                        self.bot.mineral_field.closest_to(townhall),
+                    )
