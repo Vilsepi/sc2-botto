@@ -3,10 +3,13 @@ import sc2
 
 
 class TerminalLogger:
+    """Provides unified logging facilities with extra game info in each message"""
+
     def __init__(self, bot: sc2.BotAI):
         self.bot = bot
 
-    def _prefix_message(self, message: str):
+    def _prefix_message(self, message: str) -> str:
+        """Prefixes each log message with game time in minutes, unit supply cap usage, and unit supply cap"""
         try:
             if hasattr(self.bot, "state"):
                 return "{:4.1f} {:3}/{:<3} {}".format(
