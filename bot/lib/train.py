@@ -42,12 +42,17 @@ class UnitTrainingManager:
             larva: Unit = larvae.random
             for unit in TRAINING_PRIORITY:
                 if self.bot.can_afford(unit) and self._should_train(unit):
+                    self.logger.info(f"Training {unit}")
                     larva.train(unit)
                     return True
         return False
 
-    def manage_queen_training(self, townhall: Unit):
+    def manage_queen_training(self):
         if self.bot.structures(UnitTypeId.SPAWNINGPOOL).ready:
-            if not self.bot.units(UnitTypeId.QUEEN) and townhall.is_idle:
-                if self.bot.can_afford(UnitTypeId.QUEEN):
-                    townhall.train(UnitTypeId.QUEEN)
+            if not self.bot.units(UnitTypeId.QUEEN) and self.bot.can_afford(
+                UnitTypeId.QUEEN
+            ):
+                for townhall in self.bot.townhalls:
+                    if townhall.is_idle:
+                        townhall.train(UnitTypeId.QUEEN)
+                        return

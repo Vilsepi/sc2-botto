@@ -16,14 +16,17 @@ class ArmyManager:
 
     def manage_army(self, iteration: int):
         if iteration % 50 == 0:
-            forces: Units = self.bot.units.of_type(
-                {UnitTypeId.ZERGLING, UnitTypeId.HYDRALISK}
-            )
-            if self.bot.units(UnitTypeId.HYDRALISK).amount >= 10:
-                for unit in forces.idle:
-                    unit.attack(self._get_random_enemy_building_position())
+            if self.bot.townhalls:
+                forces: Units = self.bot.units.of_type(
+                    {UnitTypeId.ZERGLING, UnitTypeId.HYDRALISK}
+                )
+                if self.bot.units(UnitTypeId.HYDRALISK).amount >= 10:
+                    for unit in forces.idle:
+                        unit.attack(self._get_random_enemy_building_position())
+            else:
+                self._final_assault()
 
-    def manage_final_assault(self):
+    def _final_assault(self):
         """If all our townhalls are dead, send all our units to attack"""
         for unit in self.bot.units.of_type(
             {

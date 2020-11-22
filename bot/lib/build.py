@@ -75,8 +75,10 @@ class BuildManager:
         """Upgrade an existing building to another phase (e.g Lair to Hive)"""
         building.build(upgrade_to)
 
-    async def manage_build_projects(self, hq: Unit):
-        for building in BUILDING_PRIORITY:
-            if self.bot.can_afford(building) and self._should_build(hq, building):
-                await self._do_build(hq, building)
-                return
+    async def manage_build_projects(self):
+        if self.bot.townhalls:
+            hq: Unit = self.bot.townhalls.first
+            for building in BUILDING_PRIORITY:
+                if self.bot.can_afford(building) and self._should_build(hq, building):
+                    await self._do_build(hq, building)
+                    return
