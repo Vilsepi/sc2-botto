@@ -26,7 +26,7 @@ Install pre-commit hooks:
 
 ## Reference for developing a bot
 
-- [python-sc2](https://github.com/BurnySc2/python-sc2) Python client library and its [documentation](https://burnysc2.github.io/python-sc2/docs/text_files/introduction.html#available-information-in-the-game)
+- [python-sc2](https://github.com/BurnySc2/python-sc2) Python client library and its [documentation](https://burnysc2.github.io/python-sc2/docs/index.html)
 - Blizzard's official [s2client-proto](https://github.com/Blizzard/s2client-proto) protocol definition
 - [sharpy-sc2](https://github.com/DrInfy/sharpy-sc2) framework for rapid development of Starcraft 2 AI bots
 - A list of [build orders](https://lotv.spawningtool.com/build/) to draw inspiration from
