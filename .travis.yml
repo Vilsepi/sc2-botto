@@ -7,4 +7,4 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - flake8 --exclude temp --max-line-length=160 --benchmark
+  - flake8 --max-line-length=160 --benchmark
