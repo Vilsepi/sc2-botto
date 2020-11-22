@@ -14,11 +14,11 @@ BUILDING_PRIORITY = [
 
 
 class BuildManager:
-    def __init__(self, bot: sc2.BotAI):
+    def __init__(self, bot: sc2.BotAI, logger: TerminalLogger):
         self.bot = bot
-        self.logger: TerminalLogger = bot.logger
+        self.logger: TerminalLogger = logger
 
-    def _should_build(self, hq: Unit, unit_type) -> bool:
+    def _should_build(self, hq: Unit, unit_type: UnitTypeId) -> bool:
         if unit_type == UnitTypeId.SPAWNINGPOOL:
             return (
                 self.bot.structures(UnitTypeId.SPAWNINGPOOL).amount
@@ -27,19 +27,19 @@ class BuildManager:
             )
         elif unit_type == UnitTypeId.LAIR:
             return (
-                self.bot.structures(UnitTypeId.SPAWNINGPOOL).ready
+                self.bot.structures(UnitTypeId.SPAWNINGPOOL).ready.exists
                 and hq.is_idle
                 and not self.bot.townhalls(UnitTypeId.LAIR)
             )
         elif unit_type == UnitTypeId.HYDRALISKDEN:
-            return self.bot.townhalls(UnitTypeId.LAIR).ready and (
+            return self.bot.townhalls(UnitTypeId.LAIR).ready.exists and (
                 self.bot.structures(UnitTypeId.HYDRALISKDEN).amount
                 + self.bot.already_pending(UnitTypeId.HYDRALISKDEN)
                 == 0
             )
         elif unit_type == UnitTypeId.EXTRACTOR:
             return (
-                self.bot.structures(UnitTypeId.SPAWNINGPOOL)
+                self.bot.structures(UnitTypeId.SPAWNINGPOOL).exists
                 and self.bot.gas_buildings.amount
                 + self.bot.already_pending(UnitTypeId.EXTRACTOR)
                 < 2
@@ -47,7 +47,7 @@ class BuildManager:
         else:
             return False
 
-    async def _do_build(self, hq: Unit, unit_type):
+    async def _do_build(self, hq: Unit, unit_type: UnitTypeId):
         self.logger.info(f"Building {unit_type}")
         if unit_type == UnitTypeId.LAIR:
             self._upgrade_building(hq, UnitTypeId.LAIR)
@@ -56,7 +56,7 @@ class BuildManager:
         else:
             await self._build_building_in_hq(hq, unit_type)
 
-    async def _build_building_in_hq(self, hq: Unit, unit_type):
+    async def _build_building_in_hq(self, hq: Unit, unit_type: UnitTypeId):
         """Build a single building near hq with no exact position"""
         await self.bot.build(
             unit_type,
@@ -71,7 +71,7 @@ class BuildManager:
                 self.bot.workers.random.build_gas(geyser)
                 break
 
-    def _upgrade_building(self, building: Unit, upgrade_to):
+    def _upgrade_building(self, building: Unit, upgrade_to: UnitTypeId):
         """Upgrade an existing building to another phase (e.g Lair to Hive)"""
         building.build(upgrade_to)
 

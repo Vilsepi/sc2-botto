@@ -5,9 +5,9 @@ from sc2.ids.upgrade_id import UpgradeId
 
 
 class UpgradeManager:
-    def __init__(self, bot: sc2.BotAI):
+    def __init__(self, bot: sc2.BotAI, logger: TerminalLogger):
         self.bot = bot
-        self.logger: TerminalLogger = bot.logger
+        self.logger: TerminalLogger = logger
 
     # If hydra den is ready and idle, research upgrades
     def manage_tech_upgrades(self):

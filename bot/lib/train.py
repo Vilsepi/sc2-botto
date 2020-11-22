@@ -15,15 +15,15 @@ TRAINING_PRIORITY = [
 
 
 class UnitTrainingManager:
-    def __init__(self, bot: sc2.BotAI) -> None:
+    def __init__(self, bot: sc2.BotAI, logger: TerminalLogger) -> None:
         self.bot = bot
-        self.logger: TerminalLogger = bot.logger
+        self.logger: TerminalLogger = logger
 
-    def _should_train(self, unit_type) -> bool:
+    def _should_train(self, unit_type: UnitTypeId) -> bool:
         if unit_type == UnitTypeId.OVERLORD:
             return self.bot.supply_left < 2
         elif unit_type == UnitTypeId.HYDRALISK:
-            return self.bot.structures(UnitTypeId.HYDRALISKDEN).ready
+            return self.bot.structures(UnitTypeId.HYDRALISKDEN).ready.exists
         elif unit_type == UnitTypeId.DRONE:
             return (
                 self.bot.supply_workers + self.bot.already_pending(UnitTypeId.DRONE)

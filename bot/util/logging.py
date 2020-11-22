@@ -1,5 +1,6 @@
 from loguru import logger
 import sc2
+from sc2.data import Result
 
 
 class TerminalLogger:
@@ -10,18 +11,15 @@ class TerminalLogger:
 
     def _prefix_message(self, message: str) -> str:
         """Prefixes each log message with game time in minutes, unit supply cap usage, and unit supply cap"""
-        try:
-            if hasattr(self.bot, "state"):
-                return "{:4.1f} {:3}/{:<3} {}".format(
-                    self.bot.time / 60,
-                    self.bot.supply_used,
-                    self.bot.supply_cap,
-                    message,
-                )
-            else:
-                return "--.- --- ---/--- " + message
-        except Exception as e:
-            print("ERROR WHILE LOGGING:", message, e)
+        if hasattr(self.bot, "state"):
+            return "{:4.1f} {:3}/{:<3} {}".format(
+                self.bot.time / 60,
+                self.bot.supply_used,
+                self.bot.supply_cap,
+                message,
+            )
+        else:
+            return "--.- --- ---/--- " + message
 
     def error(self, message: str):
         logger.error(self._prefix_message(message))
@@ -34,3 +32,16 @@ class TerminalLogger:
 
     def debug(self, message: str):
         logger.debug(self._prefix_message(message))
+
+    def log_end_stats(
+        self, game_result: Result
+    ):  # pyright: reportGeneralTypeIssues=false
+        score: int = (
+            self.bot.state.score.score
+        )  # pyright: reportUnknownMemberType=false
+        steps: int = (
+            self.bot._total_steps_iterations
+        )  # pyright: reportPrivateUsage=false
+        logger.info(
+            f"Game ended in {game_result} with score {score} at iteration {steps} with step times {self.bot.step_time}"
+        )
