@@ -14,13 +14,14 @@ class ArmyManager:
             return random.choice(self.bot.enemy_structures).position
         return self.bot.enemy_start_locations[0]
 
-    def manage_army(self, timer: bool):
-        forces: Units = self.bot.units.of_type(
-            {UnitTypeId.ZERGLING, UnitTypeId.HYDRALISK}
-        )
-        if self.bot.units(UnitTypeId.HYDRALISK).amount >= 10 and timer:
-            for unit in forces.idle:
-                unit.attack(self._get_random_enemy_building_position())
+    def manage_army(self, iteration: int):
+        if iteration % 50 == 0:
+            forces: Units = self.bot.units.of_type(
+                {UnitTypeId.ZERGLING, UnitTypeId.HYDRALISK}
+            )
+            if self.bot.units(UnitTypeId.HYDRALISK).amount >= 10:
+                for unit in forces.idle:
+                    unit.attack(self._get_random_enemy_building_position())
 
     def manage_final_assault(self):
         """If all our townhalls are dead, send all our units to attack"""

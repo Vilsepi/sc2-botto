@@ -25,7 +25,7 @@ class MyBot(sc2.BotAI):
         else:
             self.army_manager.manage_final_assault()
             return
-        self.army_manager.manage_army(iteration % 50 == 0)
+        self.army_manager.manage_army(iteration)
         if self.train_manager.manage_unit_training_from_larvae():
             return
         self.train_manager.manage_queen_training(hq)
