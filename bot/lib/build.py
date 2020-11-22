@@ -41,7 +41,7 @@ def should_build(bot: sc2.BotAI, hq: Unit, unit_type) -> bool:
 
 
 async def do_build(bot: sc2.BotAI, hq: Unit, unit_type):
-    print(f"Building {unit_type}")
+    bot.logger.info(f"Building {unit_type}")
     if unit_type == UnitTypeId.LAIR:
         upgrade_building(hq, UnitTypeId.LAIR)
     elif unit_type == UnitTypeId.EXTRACTOR:

@@ -8,24 +8,19 @@ from .lib import build
 from .lib import train
 from .lib import upgrades
 from .lib import workers
+from .util.logging import TerminalLogger
 
 
 class MyBot(sc2.BotAI):
+    def __init__(self) -> None:
+        self.logger: TerminalLogger = None
+
     async def on_start(self):
         self.iteration = 0
+        self.logger: TerminalLogger = TerminalLogger(self)
 
     async def on_step(self, iteration):
         self.iteration = iteration
-
-        """ print("A={} B={} C={} D={} E={} F={} G={} H={}".format(
-            iteration,
-            self._time_before_step,
-            self._time_after_step,
-            self._min_step_time,
-            self._max_step_time,
-            self._last_step_step_time,
-            self._total_time_in_on_step,
-            self._total_steps_iterations)) """
 
         forces: Units = self.units.of_type({UnitTypeId.ZERGLING, UnitTypeId.HYDRALISK})
         if self.townhalls:
@@ -51,6 +46,6 @@ class MyBot(sc2.BotAI):
         workers.assign_workers(self)
 
     async def on_end(self, result):
-        print(
+        self.logger.info(
             f"Game ended in {result} with score {self.state.score.score} at iteration {self._total_steps_iterations} with step times {self.step_time}"
         )
